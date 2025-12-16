@@ -24,6 +24,14 @@ class Region:
             total += sz * cnt
         return total
 
+    @property
+    def N_shapes(self):
+        return sum(self.counts)
+
+    @property
+    def N_3x3_grids(self):
+        return (self.size[0] // 3) * (self.size[1] // 3)
+
 
 regions = [
     (
@@ -37,10 +45,14 @@ regions = [
 
 
 N_bad = 0
+N_indefinite = 0
 N_good = 0
 for reg in regions:
     if reg.N_shape_squares > reg.N_spaces:
         N_bad += 1
-    else:
+    elif reg.N_3x3_grids >= reg.N_shapes:
         N_good += 1
-print(N_bad, N_good)
+    else:
+        print(reg, reg.N_shape_squares, reg.N_spaces, reg.N_3x3_grids, reg.N_shapes)
+        N_indefinite += 1
+print(N_bad, N_indefinite, N_good)
